@@ -110,19 +110,30 @@ public class MPOImageReader extends ImageReader {
     @Override
     public BufferedImage read(int imageIndex, ImageReadParam param)
             throws IOException {
-        readHeader();
-
-        ImageInputStream in = (ImageInputStream) getInput();
-        SubImageInputStream sin = new SubImageInputStream(in, imageOffsets[imageIndex], imageLengths[imageIndex]);
-        sin.seek(0);
-
-        ImageReader ir = new CMYKJPEGImageReader(getOriginatingProvider());
-        ir.setInput(sin);
+        ImageReader ir = imageReaderForIndex(imageIndex);
 
         BufferedImage img = ir.read(0);
         ir.dispose();
         return img;
     }
+
+	private ImageReader imageReaderForIndex(int imageIndex) throws IOException {
+		SubImageInputStream sin = inputStreamForIndex(imageIndex);
+
+        ImageReader ir = new CMYKJPEGImageReader(getOriginatingProvider());
+        ir.setInput(sin);
+		return ir;
+	}
+
+	public SubImageInputStream inputStreamForIndex(int imageIndex)
+			throws IOException {
+		  readHeader();
+
+        ImageInputStream in = (ImageInputStream) getInput();
+        SubImageInputStream sin = new SubImageInputStream(in, imageOffsets[imageIndex], imageLengths[imageIndex]);
+        sin.seek(0);
+		  return sin;
+	}
 
     @Override
     public int getNumThumbnails(int imageIndex) throws IOException {
