@@ -202,7 +202,13 @@ public class MPOImageReader extends ImageReader {
             String formatName = "com_sun_media_imageio_plugins_tiff_image_1.0";
             imageMetadata = new IIOMetadata[numImages];
             for (int i = 0; i < numImages; i++) {
-                imageMetadata[i] = new DefaultIIOMetadata(formatName, er.getIIOMetadataTree(formatName, i));
+            	try {
+            		// jump straight to the metadata
+            	   imageMetadata[i] = new DefaultIIOMetadata(formatName, er.getIIOMetadataTree(formatName, i));
+            	} catch (IndexOutOfBoundsException ex) {
+            		// read the sub-image as a jpeg and pull its metadata out
+            		imageMetadata[i] = imageReaderForIndex(i).getStreamMetadata();
+            	}
             }
 
             in.seek(0);
