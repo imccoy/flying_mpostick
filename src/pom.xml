@@ -15,7 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!--Trick to deploy releases (using mvn release:perform) to the local file 
 			system.  -->
-		<altDeploymentRepository>release-repo::default::file:../releases</altDeploymentRepository>
+		<altDeploymentRepository>release-repo::default::file:../snapshots</altDeploymentRepository>
 	</properties>
 
 
