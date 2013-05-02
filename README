@@ -1,4 +1,34 @@
-Half of this is http://cemerick.com/2010/08/24/hosting-maven-repos-on-github/
-The other 99% of this is http://cemerick.com/2010/08/24/hosting-maven-repos-on-github/.
+If you need to dismantle an MPO file into JPEGs in a java app, this is
+your thingywotsit.
+
+Give your pom some love like so:
+
+   <repository>
+      <id>flying_mpostick</id>
+      <url>https://raw.github.com/imccoy/flying_mpostick/master/snapshots</url>
+   </repository>
+
+And whisper to it in the night, thusly:
+
+   <dependency>
+      <groupId>com.fineshambles.flying_mpostick</groupId>
+      <artifactId>flying_mpostick</artifactId>
+      <version>1.0-20130501.081421-1</version>
+   </dependency>
+
+All the good beans are in the org.monte.media package. It's a subset of the
+stuff documented at http://www.randelshofer.ch/multishow/javadoc/index.html,
+plus, like, this one method I added to MPOImageReader:
+https://github.com/imccoy/flying_mpostick/blob/f432af0f7e4a0c2843f4c6b6531f67baa6a83f9a/src/src/main/java/org/monte/media/mpo/MPOImageReader.java#L128
+
+You can construct two SubImageInputStreams from the same MPOImageReader, but
+you probably shouldn't. It looks like each SubImageInputStream seeks around
+in the input stream and assumes that its input stream will not be seeked around
+in by anything else. Long story short, two SubImageInputStreams over the same
+MPOImageReader will make it go all monkeys and bananas in there.
+
+50% of this is http://cemerick.com/2010/08/24/hosting-maven-repos-on-github/ and
+the other 99% of it is http://www.randelshofer.ch/multishow/. The remaining 18th
+might actually have been me, I guess.
 
 It's governed by http://www.randelshofer.ch/multishow/doc/license.html
